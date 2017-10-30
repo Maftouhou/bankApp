@@ -12,13 +12,13 @@ var userDao = function(){
      */
     this.getAllUsers = function(req, res, next){
         if(typeof req.query.firstname === "string"){
-            UserModel.find({firstname: req.query.firstname}).then(function(user){
+            return UserModel.find({firstname: req.query.firstname}).then(function(user){
                 res.status((user.length === 0) ? 204 : 200);
                 res.send(user);
                 res.end();
             }).catch(next);
         }else{
-            UserModel.find().then(function(user){
+            return UserModel.find().then(function(user){
                 res.status((user.length === 0) ? 204 : 200);
                 res.send(user);
                 res.end();
@@ -54,7 +54,7 @@ var userDao = function(){
      * @param {Http} next 
      */
     this.CreateUser = function(req, res, next){
-            
+        
         UserModel.create(req.body).then(function(user){
             res.status(201);
             res.send(user);

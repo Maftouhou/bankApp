@@ -11,7 +11,7 @@ var userSvc = function(){
      * @param {Http} next 
      */
     this.getAllUsers = function(req, res, next){
-        
+
         return new UserDao().getAllUsers(req, res, next);
     };
 
