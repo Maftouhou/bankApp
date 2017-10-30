@@ -37,10 +37,10 @@ app.use('/users', users);
 app.use('/sold', sold);
 app.use('/instant_opp', instantOpp);
 
-// Handling Exceptions
+// Custom Exceptions Handling
 app.use(function(err, req, res, next){
     console.log(err);
-    res.status(422).send({
+    res.status(err.status || 500).send({
         type : err.name, 
         message: err.message
     });
@@ -57,11 +57,16 @@ app.use(function(req, res, next) {
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  res.locals.error = req.app.get('env') === 'development' ? err : {} ;
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  // res.render('error');
+    res.status(err.status || 500).send({
+        errorStatus : err.status || 500,
+        type : err.name, 
+        message: err.message
+    });
 });
 
 module.exports = app;
