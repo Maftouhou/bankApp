@@ -6,7 +6,7 @@ var mongoose = require('mongoose');
 var instantOpperationModel = new mongoose.Schema({
     user_id: {type: String, required: true},
     typeOpperation: {type: String, required: true},
-    dateOpperation: {type: Date},
+    dateOpperation: {type: Date, default: Date.now },
     co_author_id: {type: String, required: true},
     description: {type: String, required: true},
     created_at: {type: Date, default: Date.now },

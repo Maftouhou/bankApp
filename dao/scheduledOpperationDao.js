@@ -1,6 +1,6 @@
 // var opperationModel = require('../models/appartementModel');
 
-var instantOpperationDao = function(){
+var scheduledOpperationDao = function(){
 
     /**
      * Get all Opperation in the database
@@ -47,4 +47,4 @@ var instantOpperationDao = function(){
     };
 };
 
-module.exports = instantOpperationDao;
+module.exports = scheduledOpperationDao;

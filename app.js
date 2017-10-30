@@ -8,6 +8,7 @@ var socket = require('socket.io');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var instantOpp = require('./routes/instantOpperation');
 
 //var appartement = require('./routes/appartement');
 //var booking = require('./routes/booking');
@@ -32,6 +33,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
+app.use('/instant_opp', instantOpp);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
