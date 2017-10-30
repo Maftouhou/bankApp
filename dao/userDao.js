@@ -3,47 +3,105 @@ var UserModel = require('../models/userModel');
 var userDao = function(){
 
     /**
-     * Get all user in the database
+     * Search for spesific user
+     * Or get all users
      * 
-     * @returns {undefined}
+     * @param {Http} req 
+     * @param {Http} res 
+     * @param {Http} next 
      */
-    this.getAllUsers = function(){
-        
+    this.getAllUsers = function(req, res, next){
+        if(typeof req.query.firstname === "string"){
+            UserModel.find({firstname: req.query.firstname}).then(function(user){
+                res.status((user.length === 0) ? 204 : 200);
+                res.send(user);
+                res.end();
+            }).catch(next);
+        }else{
+            UserModel.find().then(function(user){
+                res.status((user.length === 0) ? 204 : 200);
+                res.send(user);
+                res.end();
+            }).catch(next);
+        }
     };
 
     /**
-     * Get one user in the database
+     * Get one users
      * 
-     * @returns {undefined}
+     * @param {Http} req 
+     * @param {Http} res 
+     * @param {Http} next 
      */
-    this.getOneUser = function(){
+    this.getOneUser = function(req, res, next){
         
+        UserModel.findOne({_id: req.params.id}).then(function(user){
+            if(user !== null){
+                res.status((user.length === 0) ? 204 : 200);
+                res.send(user);
+                res.end();
+            }else{
+                res.status(204).end();
+            }
+        }).catch(next);
     };
 
     /**
-     * Create a new user
+     * Create a user
      * 
-     * @returns {undefined}
+     * @param {Http} req 
+     * @param {Http} res 
+     * @param {Http} next 
      */
-    this.CreateUser = function(){
-        
-    };
-    /**
-     * Edit an existing user
-     * 
-     * @returns {undefined}
-     */
-    this.UpdateUser = function(){
-        
+    this.CreateUser = function(req, res, next){
+            
+        UserModel.create(req.body).then(function(user){
+            res.status(201);
+            res.send(user);
+            res.end();
+        }).catch(next);
     };
     
     /**
-     * Delete an existing user
+     * Update a user
      * 
-     * @returns {undefined}
+     * @param {Http} req 
+     * @param {Http} res 
+     * @param {Http} next 
      */
-    this.DeleteUser = function(){
-        
+    this.UpdateUser = function(req, res, next){
+            
+        UserModel.findByIdAndUpdate({_id: req.params.id}, req.body).then(function(){
+            UserModel.findOne({_id: req.params.id}).then(function(user){
+                if(user !== null){
+                    res.status(200);
+                    res.send(user);
+                    res.end();
+                }else{
+                    res.status(204).end();
+                }
+            }).catch(next);
+        }).catch(next);
+    };
+    
+    /**
+     * Delete a user
+     * 
+     * @param {Http} req 
+     * @param {Http} res 
+     * @param {Http} next 
+     */
+    this.DeleteUser = function(req, res, next){
+            
+        UserModel.findByIdAndRemove({_id: req.params.id}).then(function(user){
+            if(user !== null){
+                res.status(200);
+                res.send(user);
+                res.end();
+            }else{
+                res.status(204).end();
+            }
+        }).catch(next);
     };
 };
 

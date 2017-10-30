@@ -4,10 +4,18 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var socket = require('socket.io');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
 
+//var appartement = require('./routes/appartement');
+//var booking = require('./routes/booking');
+//var airmail = require('./routes/airbmail');
+//var messaging = require('./routes/messaging');
+
+// mongodb connection
+var db_connection = require('./dao/db_connection');
 var app = express();
 
 // view engine setup
