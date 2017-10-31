@@ -120,7 +120,7 @@ var userDao = function(){
             
         UserModel.findByIdAndRemove({_id: req.params.id}).then(function(user){
             if(user !== null){
-                //new SoldDao().DeleteSold(user);
+                new SoldDao().DeleteSold(user._id);
                 res.status(200);
                 res.send(user);
                 res.end();

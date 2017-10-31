@@ -127,11 +127,11 @@ var soldDao = function(){
     /**
      * Delete sold for a spesific user
      * 
-     * @param String userId 
+     * @param {String} userId 
      */
     this.DeleteSold = function(userId){
-            
-        SoldModel.findOneAndDelete({user_id: userId}).then(function(sold){});
+
+        SoldModel.findOneAndRemove({user_id: userId}).then(function(sold){});
     };
 };
 
