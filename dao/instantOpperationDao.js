@@ -1,5 +1,7 @@
 var OpperationModel = require('../models/instantOpperationModel');
+var SoldModel = require('../models/soldModel');
 var SoldSvc = require('../services/soldSvc');
+var SoldDao = require('../dao/soldDao');
 
 var instantOpperationDao = function(){
 
@@ -56,12 +58,27 @@ var instantOpperationDao = function(){
      */
     this.CreateOpperation = function(req, res, next){
 
-        OpperationModel.create(req.body).then(function(instantOpp){
-            new SoldSvc().requestUpdateSold(req, res, next);
-            res.status(201);
-            res.send(instantOpp);
-            res.end();
-        }).catch(next);
+        SoldModel.findOne({user_id: req.body.user_id}).then(function(sold){
+            if(req.body.typeOpperation === 'vir'){
+                if(sold.amount < req.body.amount){
+                    res.send({"status":"Errore de transaction", "message" : "solde insuffisant"}).end();
+                }else {
+                    OpperationModel.create(req.body).then(function(instantOpp){
+                        new SoldSvc().UpdateSold(req, res, next);
+                        res.status(201);
+                        res.send(instantOpp);
+                        res.end();
+                    }).catch(next);
+                }
+            }else if(req.body.typeOpperation === 'vers'){
+                OpperationModel.create(req.body).then(function(instantOpp){
+                    new SoldSvc().UpdateSold(req, res, next);
+                    res.status(201);
+                    res.send(instantOpp);
+                    res.end();
+                }).catch(next);
+            }
+        });
     };
     
     /**

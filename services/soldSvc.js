@@ -36,7 +36,7 @@ var soldSvc = function(){
      */
     this.UpdateSoldTemps = function(req, res, next){
         
-        return new SoldDao().UpdateSold()(req, res, next);
+        return new SoldDao().UpdateSoldTemps()(req, res, next);
     };
     
     /**
@@ -46,9 +46,9 @@ var soldSvc = function(){
      * @param {Http} res 
      * @param {Http} next 
      */
-    this.requestUpdateSold = function(req, res, next){
+    this.UpdateSold = function(req, res, next){
         
-        return new SoldDao().requestUpdateSold(req, res, next);
+        return new SoldDao().UpdateSold(req, res, next);
     };
 
 };

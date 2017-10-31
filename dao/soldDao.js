@@ -68,7 +68,7 @@ var soldDao = function(){
      * @param {Http} res 
      * @param {Http} next 
      */
-    this.requestUpdateSold = function(req, res, next){
+    this.UpdateSold = function(req, res, next){
         SoldModel.findOne({user_id: req.body.user_id}).then(function(sold){
             let soldDataField = {
                 user_id: sold.user_id,
@@ -77,16 +77,8 @@ var soldDao = function(){
             };
             
             if(soldDataField.oppType === 'vir'){
-                if(req.body.amount > soldDataField.curentAmount){
-                    let transactionErrMsg = {
-                        status: "Solde insuffisant",
-                        message: "Votre sold actuelle etant de " + soldDataField.curentAmount + " ne vous permet pas de faire un virement d'un montant de " + req.body.amount
-                    };
-                    
-                }else{
-                    let newAmont = {amount: soldDataField.curentAmount -  Number(req.body.amount)};
-                    SoldModel.findOneAndUpdate({user_id: soldDataField.user_id}, newAmont).then(function(){});
-                }
+                let newAmont = {amount: soldDataField.curentAmount -  Number(req.body.amount)};
+                SoldModel.findOneAndUpdate({user_id: soldDataField.user_id}, newAmont).then(function(){});
             }else if(soldDataField.oppType === 'vers'){
                 let newAmont = {amount: soldDataField.curentAmount + Number(req.body.amount)};
                 SoldModel.findOneAndUpdate({user_id: soldDataField.user_id}, newAmont).then(function(){});
