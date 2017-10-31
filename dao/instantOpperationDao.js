@@ -59,23 +59,11 @@ var instantOpperationDao = function(){
     this.CreateOpperation = function(req, res, next){
 
         SoldModel.findOne({user_id: req.body.user_id}).then(function(sold){
-            if(req.body.typeOpperation === 'vir'){
-                if(sold.amount < req.body.amount){
-                    res.send({"status":"Errore de transaction", "message" : "solde insuffisant"}).end();
-                }else {
-                    OpperationModel.create(req.body).then(function(instantOpp){
-                        new SoldSvc().UpdateSold(req, res, next);
-                        res.status(201);
-                        res.send(instantOpp);
-                        res.end();
-                    }).catch(next);
-                }
-            }else if(req.body.typeOpperation === 'vers'){
+            if(sold.amount < req.body.amount){
+                res.send({"status":"Errore de transaction", "message" : "solde insuffisant"}).end();
+            }else {
                 OpperationModel.create(req.body).then(function(instantOpp){
-                    new SoldSvc().UpdateSold(req, res, next);
-                    res.status(201);
-                    res.send(instantOpp);
-                    res.end();
+                    new SoldSvc().UpdateSold(req, res, next, instantOpp);
                 }).catch(next);
             }
         });

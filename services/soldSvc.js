@@ -45,10 +45,11 @@ var soldSvc = function(){
      * @param {Http} req 
      * @param {Http} res 
      * @param {Http} next 
+     * @param {Object} instantOpp
      */
-    this.UpdateSold = function(req, res, next){
+    this.UpdateSold = function(req, res, next, instantOpp){
         
-        return new SoldDao().UpdateSold(req, res, next);
+        return new SoldDao().UpdateSold(req, res, next, instantOpp);
     };
 
 };
