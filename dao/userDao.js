@@ -1,7 +1,29 @@
 var UserModel = require('../models/userModel');
+var SoldModel = require('../models/soldModel');
+var SoldDao = require('../dao/soldDao');
 
 var userDao = function(){
+  
+    /**
+     * Add user sold to user informations
+     * 
+     * @param {Oblect} user 
+     * @param {Http} res
+     */
+    var addSoldToUser = function(user, res) {
+        console.log(user[0]);
+        SoldModel.findOne({user_id: user[0] ? user[0]._id : user._id }).then(function(userSold){
+            let userData = {
+                userInfo: user,
+                sold: { 
+                    id: userSold ?  userSold._id : 'N/A', 
+                    amount: userSold ?  userSold.amount : 0 }
+            };
 
+            res.status((user.length === 0) ? 204 : 200);
+            res.send(userData).end();
+        });
+    };
     /**
      * Search for spesific user
      * Or get all users
@@ -13,12 +35,12 @@ var userDao = function(){
     this.getAllUsers = function(req, res, next){
         if(typeof req.query.firstname === "string"){
             return UserModel.find({firstname: req.query.firstname}).then(function(user){
-                res.status((user.length === 0) ? 204 : 200);
-                res.send(user);
-                res.end();
+
+                addSoldToUser(user, res);
             }).catch(next);
         }else{
             return UserModel.find().then(function(user){
+
                 res.status((user.length === 0) ? 204 : 200);
                 res.send(user);
                 res.end();
@@ -37,9 +59,7 @@ var userDao = function(){
         
         UserModel.findOne({_id: req.params.id}).then(function(user){
             if(user !== null){
-                res.status((user.length === 0) ? 204 : 200);
-                res.send(user);
-                res.end();
+                addSoldToUser(user, res);
             }else{
                 res.status(204).end();
             }
@@ -56,6 +76,12 @@ var userDao = function(){
     this.CreateUser = function(req, res, next){
         
         UserModel.create(req.body).then(function(user){
+            let data = {
+                user_id: user._id,
+                amount: 0
+            };
+            new SoldDao().CreateSoldForUser(data);
+            
             res.status(201);
             res.send(user);
             res.end();
@@ -95,6 +121,7 @@ var userDao = function(){
             
         UserModel.findByIdAndRemove({_id: req.params.id}).then(function(user){
             if(user !== null){
+                //new SoldDao().DeleteSold(user);
                 res.status(200);
                 res.send(user);
                 res.end();

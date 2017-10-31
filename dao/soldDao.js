@@ -26,6 +26,16 @@ var soldDao = function(){
     /**
      * Create sold
      * 
+     * @param {Object} data 
+     */
+    this.CreateSoldForUser = function(data){
+        
+        SoldModel.create(data).then(function(){ });
+    };
+    
+    /**
+     * Create sold
+     * 
      * @param {Http} req 
      * @param {Http} res 
      * @param {Http} next 
@@ -84,6 +94,16 @@ var soldDao = function(){
                 SoldModel.findOneAndUpdate({user_id: soldDataField.user_id}, newAmont).then(function(){});
             }
         }).catch(next);
+    };
+    
+    /**
+     * Delete sold for a spesific user
+     * 
+     * @param String userId 
+     */
+    this.DeleteSold = function(userId){
+            
+        SoldModel.findOneAndDelete({user_id: userId}).then(function(sold){});
     };
 };
 
