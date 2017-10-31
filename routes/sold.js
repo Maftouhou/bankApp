@@ -22,8 +22,8 @@ router.get('/:id', function(req, res, next) {
  * @param {Http} next 
  */
 router.get('/', function(req, res, next) {
-    res.status(204).end();
-    return;
+    
+    return new SoldSvc().getAllSold(req, res, next);
 });
 
 /**

@@ -11,7 +11,6 @@ var userDao = function(){
      * @param {Http} res
      */
     var addSoldToUser = function(user, res) {
-        console.log(user[0]);
         SoldModel.findOne({user_id: user[0] ? user[0]._id : user._id }).then(function(userSold){
             let userData = {
                 userInfo: user,

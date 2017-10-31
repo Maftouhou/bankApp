@@ -3,6 +3,17 @@ var SoldDao = require('../dao/soldDao');
 var soldSvc = function(){
 
     /**
+     * Get sold
+     * 
+     * @param {Http} req 
+     * @param {Http} res 
+     * @param {Http} next 
+     */
+    this.getAllSold = function(req, res, next){
+        
+        return new SoldDao().getAllSold(req, res, next);
+    };
+    /**
      * Search for spesific user
      * Or get all users
      * 

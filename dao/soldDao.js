@@ -4,6 +4,22 @@ var db = require('../dao/db_connection');
 var soldDao = function(){
 
     /**
+     * Get all sold
+     * 
+     * @param {Http} req 
+     * @param {Http} res 
+     * @param {Http} next 
+     */
+    this.getAllSold = function(req, res, next){
+        SoldModel.find().then(function(user){
+
+            res.status((user.length === 0) ? 204 : 200);
+            res.send(user);
+            res.end();
+        }).catch(next);
+    };
+    
+    /**
      * Get sold
      * 
      * @param {Http} req 
