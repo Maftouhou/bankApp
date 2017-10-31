@@ -74,17 +74,26 @@ var userDao = function(){
      */
     this.CreateUser = function(req, res, next){
         
-        UserModel.create(req.body).then(function(user){
-            let data = {
-                user_id: user._id,
-                amount: 0
-            };
-            new SoldDao().CreateSoldForUser(data);
-            
-            res.status(201);
-            res.send(user);
-            res.end();
-        }).catch(next);
+        UserModel.findOne( {email: req.body.email} ).then(function(user){
+            if(user !== null){
+                res.send({
+                    "status" : "Erreur de création", 
+                    "message" : "Un utilisateur portant le même adresse email '"+req.body.email+ "' existe déjà !!!"
+                }).end();
+            }else{
+                UserModel.create(req.body).then(function(user){
+                    let data = {
+                        user_id: user._id,
+                        amount: 0
+                    };
+                    new SoldDao().CreateSoldForUser(data);
+
+                    res.status(201);
+                    res.send(user);
+                    res.end();
+                }).catch(next);
+            }
+        });
     };
     
     /**
