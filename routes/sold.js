@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var SoldDao = require('../dao/soldDao');
+var SoldSvc = require('../dao/soldDao');
 
 /**
  * Get one users
@@ -11,7 +11,7 @@ var SoldDao = require('../dao/soldDao');
  */
 router.get('/:id', function(req, res, next) {
     
-    return new SoldDao().getSold(req, res, next);
+    return new SoldSvc().getSold(req, res, next);
 });
 
 /**
@@ -35,7 +35,7 @@ router.get('/', function(req, res, next) {
  */
 router.post('/', function (req, res, next) {
     
-    return new SoldDao().CreateSold(req, res, next);
+    return new SoldSvc().CreateSold(req, res, next);
 });
 
 /**
@@ -47,7 +47,7 @@ router.post('/', function (req, res, next) {
  */
 router.put('/:id', function (req, res, next) {
     
-    return new SoldDao().UpdateSold(req, res, next);
+    return new SoldSvc().UpdateSoldTemps(req, res, next);
 });
 
 module.exports = router;

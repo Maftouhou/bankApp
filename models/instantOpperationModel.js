@@ -14,5 +14,5 @@ var instantOpperationModel = new mongoose.Schema({
     updated_at: {type: Date, default: Date.now }
 });
 
-var instantOpperation = mongoose.model('AppartementModel', instantOpperationModel);
+var instantOpperation = mongoose.model('InstantOpperationModel', instantOpperationModel);
 module.exports  = instantOpperation;

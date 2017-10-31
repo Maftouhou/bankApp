@@ -1,4 +1,5 @@
 var OpperationModel = require('../models/instantOpperationModel');
+var SoldSvc = require('../services/soldSvc');
 
 var instantOpperationDao = function(){
 
@@ -10,7 +11,7 @@ var instantOpperationDao = function(){
      * @param {Http} next 
      */
     this.getAllOpperation = function(req, res, next){
-        console.log('instantOpp is here !!');
+        
         if(typeof req.query.typeOpperation === "string"){
             OpperationModel.find({firstname: req.query.firstname}).then(function(instantOpp){
                 res.status((instantOpp.length === 0) ? 204 : 200);
@@ -54,13 +55,15 @@ var instantOpperationDao = function(){
      * @param {Http} next 
      */
     this.CreateOpperation = function(req, res, next){
-                    
+
         OpperationModel.create(req.body).then(function(instantOpp){
+            new SoldSvc().requestUpdateSold(req, res, next);
             res.status(201);
             res.send(instantOpp);
             res.end();
         }).catch(next);
     };
+    
     /**
      * Edit an existing Opperation 
      * 
