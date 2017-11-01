@@ -1,49 +1,99 @@
-// var opperationModel = require('../models/appartementModel');
+var OpperationModel = require('../models/scheduledOpperationModel');
+var SoldModel = require('../models/soldModel');
+var SoldSvc = require('../services/soldSvc');
 
 var scheduledOpperationDao = function(){
 
     /**
      * Get all Opperation in the database
      * 
-     * @returns {undefined}
+     * @param {Http} req 
+     * @param {Http} res 
+     * @param {Http} next 
      */
-    this.getAllOpperation = function(){
-        
+    this.getAllOpperation = function(req, res, next){
+
+        OpperationModel.find().then(function(scheduledOpp){
+            res.status((scheduledOpp.length === 0) ? 204 : 200);
+            res.send(scheduledOpp);
+            res.end();
+        }).catch(next);
     };
 
     /**
      * Get one Opperation  in the database
      * 
-     * @returns {undefined}
+     * @param {Http} req 
+     * @param {Http} res 
+     * @param {Http} next 
      */
-    this.getOneOpperation = function(){
-        
+    this.getOneOpperation = function(req, res, next){
+                
+        OpperationModel.findOne({_id: req.params.id}).then(function(instantOpp){
+            if(instantOpp !== null){
+                res.status((instantOpp.length === 0) ? 204 : 200);
+                res.send(instantOpp);
+                res.end();
+            }else{
+                res.status(204).end();
+            }
+        }).catch(next);
     };
 
     /**
      * Create a new Opperation 
      * 
-     * @returns {undefined}
+     * @param {Http} req 
+     * @param {Http} res 
+     * @param {Http} next 
      */
-    this.CreateOpperation = function(){
-        
+    this.CreateOpperation = function(req, res, next){
+
+        OpperationModel.create(req.body).then(function(scheduledOpp){
+            res.status(201).send(scheduledOpp).end();
+        }).catch(next);
     };
+    
     /**
      * Edit an existing Opperation 
      * 
-     * @returns {undefined}
+     * @param {Http} req 
+     * @param {Http} res 
+     * @param {Http} next 
      */
-    this.UpdateOpperation = function(){
-        
+    this.UpdateOpperation = function(req, res, next){
+                    
+        OpperationModel.findByIdAndUpdate({_id: req.params.id}, req.body).then(function(){
+            OpperationModel.findOne({_id: req.params.id}).then(function(instantOpp){
+                if(instantOpp !== null){
+                    res.status(200);
+                    res.send(instantOpp);
+                    res.end();
+                }else{
+                    res.status(204).end();
+                }
+            }).catch(next);
+        }).catch(next);
     };
     
     /**
      * Delete an existing Opperation 
      * 
-     * @returns {undefined}
+     * @param {Http} req 
+     * @param {Http} res 
+     * @param {Http} next
      */
-    this.DeleteOpperation = function(){
-        
+    this.DeleteOpperation = function(req, res, next){
+                    
+        OpperationModel.findByIdAndRemove({_id: req.params.id}).then(function(instantOpp){
+            if(instantOpp !== null){
+                res.status(200);
+                res.send(instantOpp);
+                res.end();
+            }else{
+                res.status(204).end();
+            }
+        }).catch(next);
     };
 };
 

@@ -10,6 +10,7 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var sold = require('./routes/sold');
 var instantOpp = require('./routes/instantOpperation');
+var scheduledOpp = require('./routes/scheduledOpperation');
 var messaging = require('./routes/messaging');
 
 //var appartement = require('./routes/appartement');
@@ -53,6 +54,7 @@ app.use('/', index);
 app.use('/users', users);
 app.use('/sold', sold);
 app.use('/instant_opp', instantOpp);
+app.use('/scheduled_opp', scheduledOpp);
 app.use('/messaging', messaging);
 
 // Custom Exceptions Handling

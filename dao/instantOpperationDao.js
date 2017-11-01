@@ -13,20 +13,12 @@ var instantOpperationDao = function(){
      * @param {Http} next 
      */
     this.getAllOpperation = function(req, res, next){
-        
-        if(typeof req.query.typeOpperation === "string"){
-            OpperationModel.find({firstname: req.query.firstname}).then(function(instantOpp){
-                res.status((instantOpp.length === 0) ? 204 : 200);
-                res.send(instantOpp);
-                res.end();
-            }).catch(next);
-        }else{
-            OpperationModel.find().then(function(instantOpp){
-                res.status((instantOpp.length === 0) ? 204 : 200);
-                res.send(instantOpp);
-                res.end();
-            }).catch(next);
-        }
+
+        OpperationModel.find().then(function(instantOpp){
+            res.status((instantOpp.length === 0) ? 204 : 200);
+            res.send(instantOpp);
+            res.end();
+        }).catch(next);
     };
 
     /**
