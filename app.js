@@ -10,15 +10,32 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var sold = require('./routes/sold');
 var instantOpp = require('./routes/instantOpperation');
+var messaging = require('./routes/messaging');
 
 //var appartement = require('./routes/appartement');
 //var booking = require('./routes/booking');
 //var airmail = require('./routes/airbmail');
-//var messaging = require('./routes/messaging');
 
 // mongodb connection
 var db_connection = require('./dao/db_connection');
 var app = express();
+
+// Connecting to socket service
+var server = app.listen(4000);
+var io = require('socket.io').listen(server);
+io.on('connection', function(socket){
+    
+    // When a user is typing a message !
+    socket.on('typing', function(data){
+        socket.broadcast.emit('typing', data);
+    });
+    
+    // When a chat message is sent !
+    socket.on('messaging', function(data){
+        io.sockets.emit('messaging', data);
+    });
+    console.log('Connection extablished !');
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -36,6 +53,7 @@ app.use('/', index);
 app.use('/users', users);
 app.use('/sold', sold);
 app.use('/instant_opp', instantOpp);
+app.use('/messaging', messaging);
 
 // Custom Exceptions Handling
 app.use(function(err, req, res, next){

@@ -1,0 +1,17 @@
+extends layout
+
+block content
+    h1 The Panama BANK
+    p Welcome to the Panama Bank Customer service !
+    div(id="mario-chat")
+        div(id="chat-window")
+            div(id="viewPort")
+            div(id="feedback")
+            p
+                input(type="text" id="user" placeholder="user")
+            p
+                input(type="text" id="contents" placeholder="contents")
+            p
+                button(id="sendMessage") Send
+
+    script(src="/javascripts/chatService.js")
