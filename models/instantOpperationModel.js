@@ -5,7 +5,6 @@ var mongoose = require('mongoose');
  */
 var instantOpperationModel = new mongoose.Schema({
     user_id: {type: String, required: true},
-    typeOpperation: {type: String, enum: ['vir', 'vers']},
     dateOpperation: {type: Date, default: Date.now },
     co_author_id: {type: String, required: true},
     amount: {type: Number, required: true},
