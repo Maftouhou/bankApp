@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var scheduledOppSvc = require('../services/scheduledOppSvc');
+var updateInstantOppSvc = require('../services/updateInstantOppSvc');
 
 /**
  * Get one users
@@ -24,7 +25,8 @@ router.get('/:id', function(req, res, next) {
  */
 router.get('/', function(req, res, next) {
     
-    return new scheduledOppSvc().getAllOpperation(req, res, next);
+    return new updateInstantOppSvc().getAllOpperations(req, res, next);
+    //return new scheduledOppSvc().getAllOpperation(req, res, next);
 });
 
 /**

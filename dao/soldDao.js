@@ -96,28 +96,33 @@ var soldDao = function(){
      * @param {Object} instantOpp
      */
     this.UpdateSold = function(req, res, next, instantOpp){
-        SoldModel.findOne({user_id: req.body.user_id}).then(function(sold){
+        
+        SoldModel.findOne({user_id: (req.body.user_id === undefined ? instantOpp.user_id : req.body.user_id )})
+                .then(function(sold){
+            
             let soldDataField = {
                 user_id: sold.user_id,
-                co_author_id: req.body.co_author_id,
+                co_author_id: (req.body.user_id === undefined ? instantOpp.co_author_id : req.body.co_author_id ),
                 curentAmount: sold.amount,
-                oppType: req.body.typeOpperation
+                newAmount: (req.body.user_id === undefined ? instantOpp.amount : req.body.amount )
             };
-
+            
             SoldModel.findOne({user_id: soldDataField.co_author_id}).then(function(soldToAdd){
+
                 if(soldToAdd === null){
                     res.send({
                         "status":"Errore de transaction", 
                         "message" : "Aucun beneficiaire trouvé.. garde ton fric !!!"}).end();
                 }else{
-                    console.log('transaction will be placed here : ' + instantOpp);
-                    let amontWithdraw = {amount: soldDataField.curentAmount -  Number(req.body.amount)};
+                    let amontWithdraw = {amount: soldDataField.curentAmount -  Number(soldDataField.newAmount)};
                     SoldModel.findOneAndUpdate({user_id: soldDataField.user_id}, amontWithdraw).then(function(){});
 
-                    let amontAdd = {amount: soldToAdd.amount +  Number(req.body.amount)};
+                    let amontAdd = {amount: soldToAdd.amount +  Number(soldDataField.newAmount)};
                     SoldModel.findOneAndUpdate({user_id: soldDataField.co_author_id}, amontAdd).then(function(){});
                     
-                    res.status(201).send(instantOpp).end();
+                    if(req.body.user_id !== undefined){
+                        res.status(201).send(instantOpp).end();
+                    }
                 }
             }).catch(next);
             

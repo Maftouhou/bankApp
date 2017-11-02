@@ -6,6 +6,10 @@ var mongoose = require('mongoose');
 var scheduledOpperationModel = new mongoose.Schema({
     user_id: {type: String, required: true},
     statusOpperation: {type: String, enum: ['done', 'undone'], required: true, default: 'undone'},
+    statusRepport: {
+        status: {type: String, enum: ['success', 'fail', 'pending'], required: true, default: 'pending'},
+        comment: {type: String, default: 'en attente de validation'}
+    },
     dateOpperation: {type: Date, default: Date.now },
     scheduledDateOpperation: {type: Date },
     co_author_id: {type: String, required: true},
