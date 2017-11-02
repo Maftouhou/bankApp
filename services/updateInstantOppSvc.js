@@ -20,7 +20,7 @@ var updateInstantOppSvc = function(){
         schedulOpperationModel.find().then(function(data){
             if(data !== null){
                 for(let i = 0; i < data.length; i++){
-                    if(data[i].statusOpperation === "done"){
+                    if(data[i].statusOpperation === "undone"){
                         undoneOpp.push(data[i]);
                     }
                 }
@@ -48,7 +48,7 @@ var updateInstantOppSvc = function(){
             newOpperation.co_author_id = data[i].co_author_id;
             newOpperation.description = data[i].description;
             newOpperation.amount = data[i].amount;
-//            console.log(newOpperation);
+
             updateInstantOpp(req, res, next, data[i]._id, data[i].amount, newOpperation);
         }
         

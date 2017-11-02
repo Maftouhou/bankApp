@@ -25,8 +25,12 @@ router.get('/:id', function(req, res, next) {
  */
 router.get('/', function(req, res, next) {
     
-    return new updateInstantOppSvc().getAllOpperations(req, res, next);
-    //return new scheduledOppSvc().getAllOpperation(req, res, next);
+    // Executer les opperation programmer manuellement 
+    // Action à prevoir pour une execution automatique
+    // return new updateInstantOppSvc().getAllOpperations(req, res, next);
+    
+    // Processus normal de recuperation des opperation programmés
+    return new scheduledOppSvc().getAllOpperation(req, res, next);
 });
 
 /**
