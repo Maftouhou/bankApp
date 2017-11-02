@@ -5,7 +5,8 @@ var mongoose = require('mongoose');
  */
 var scheduledOpperationModel = new mongoose.Schema({
     user_id: {type: String, required: true},
-    typeOpperation: {type: String, required: true},
+    typeOpperation: {type: String, enum: ['vir', 'vers']},
+    statusOpperation: {type: String, enum: ['done', 'undone'], required: true, default: 'undone'},
     dateOpperation: {type: Date, default: Date.now },
     scheduledDateOpperation: {type: Date },
     co_author_id: {type: String, required: true},
