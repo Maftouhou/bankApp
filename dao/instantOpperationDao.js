@@ -13,12 +13,17 @@ var instantOpperationDao = function(){
      * @param {Http} next 
      */
     this.getAllOpperation = function(req, res, next){
+        if(typeof req.query.userId === "string"){
+            
+            getOpperationByUser(req, res, next);
+        }else{
 
-        OpperationModel.find().then(function(instantOpp){
-            res.status((instantOpp.length === 0) ? 204 : 200);
-            res.send(instantOpp);
-            res.end();
-        }).catch(next);
+            OpperationModel.find().then(function(instantOpp){
+                res.status((instantOpp.length === 0) ? 204 : 200);
+                res.send(instantOpp);
+                res.end();
+            }).catch(next);
+        }
     };
 
     /**
@@ -31,6 +36,28 @@ var instantOpperationDao = function(){
     this.getOneOpperation = function(req, res, next){
                 
         OpperationModel.findOne({_id: req.params.id}).then(function(instantOpp){
+            if(instantOpp !== null){
+                res.status((instantOpp.length === 0) ? 204 : 200);
+                res.send(instantOpp);
+                res.end();
+            }else{
+                res.status(204).end();
+            }
+        }).catch(next);
+    };
+
+    /**
+     * Get Opperation by user
+     * 
+     * @param {Http} req 
+     * @param {Http} res 
+     * @param {Http} next 
+     */
+    var getOpperationByUser = function(req, res, next){
+        
+        OpperationModel
+            .find({ $or:[{ "user_id": req.query.userId}, {"co_author_id": req.query.userId}] })
+            .then(function(instantOpp){
             if(instantOpp !== null){
                 res.status((instantOpp.length === 0) ? 204 : 200);
                 res.send(instantOpp);
