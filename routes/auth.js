@@ -15,7 +15,7 @@ var AuthDao = require('../dao/authDao');
 router.get('/', function(req, res, next) {
     
     console.log("Auth route in GET");
-    // return new AuthDao();
+    return new AuthDao().authUser(req, res, next);
 });
 
 /**
@@ -26,8 +26,12 @@ router.get('/', function(req, res, next) {
  * @param {Http} next 
  */
 router.post('/', function (req, res, next) {
-
-    return new AuthDao().CreateAuth(req, res, next);
+        // return new AuthDao().CreateAuth(req, res, next);
+    if(!req.body.user_id){
+        return new AuthDao().authUser(req, res, next);
+    }else{
+        return new AuthDao().CreateAuth(req, res, next);
+    }
 });
 
 module.exports = router;
