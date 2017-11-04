@@ -12,6 +12,7 @@ var jwt = require('jsonwebtoken');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var auth  = require('./routes/auth');
 var sold = require('./routes/sold');
 var instantOpp = require('./routes/instantOpperation');
 var scheduledOpp = require('./routes/scheduledOpperation');
@@ -62,6 +63,7 @@ require('./config/passport')(passport);
 
 app.use('/', index);
 app.use('/users', users);
+app.use('/auth', auth);
 app.use('/sold', sold);
 app.use('/instant_opp', instantOpp);
 app.use('/scheduled_opp', scheduledOpp);

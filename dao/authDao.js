@@ -12,11 +12,14 @@ var authDao = function(){
      * @param {Http} next 
      */
     this.CreateAuth = function(req, res, next){
+        console.log(req.body);
+        
         if(!req.body.email || !req.body.password){
             res.json({status:"fail", message: "veillez renseigner un email et un mot de passe."});
         }else {
             // let newUserAuth = { };
             AuthModel.create(req.body).then(function(authUser){
+                console.log(authUser);
                 res.send(authUser).end();
             }).catch(next);
         }
