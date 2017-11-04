@@ -1,5 +1,5 @@
 var SoldModel = require('../models/soldModel');
-var db = require('../dao/db_connection');
+var db = require('../config/db_connection');
 
 var soldDao = function(){
 

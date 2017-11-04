@@ -5,6 +5,10 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var socket = require('socket.io');
+var passport = require('passport');
+var config = require('./config/main');
+var authModel = require('./models/authModel'); // Can be moded to a proper location
+var jwt = require('jsonwebtoken');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -18,7 +22,7 @@ var messaging = require('./routes/messaging');
 //var airmail = require('./routes/airbmail');
 
 // mongodb connection
-var db_connection = require('./dao/db_connection');
+var db_connection = require('./config/db_connection');
 var app = express();
 
 // Connecting to socket service
@@ -49,6 +53,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Initialise passport
+app.use(passport.initialize());
+
+// Bringing passport strategie
+require('./config/passport')(passport);
 
 app.use('/', index);
 app.use('/users', users);
