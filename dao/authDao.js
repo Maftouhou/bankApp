@@ -1,30 +1,9 @@
-var AuthModel = require('../models/authModel');
+var UserModel = require('../models/userModel');
 var config = require('../config/main');
 var jwt = require('jsonwebtoken');
 
 var authDao = function(){
-
-    /**
-     * Create a user
-     * 
-     * @param {Http} req 
-     * @param {Http} res 
-     * @param {Http} next 
-     */
-    this.CreateAuth = function(req, res, next){
-        console.log(req.body);
-        
-        if(!req.body.email || !req.body.password){
-            res.json({status:"fail", message: "veillez renseigner un email et un mot de passe."});
-        }else {
-            // let newUserAuth = { };
-            AuthModel.create(req.body).then(function(authUser){
-                
-                res.send(authUser).end();
-            }).catch(next);
-        }
-    };
-    
+  
     /**
      * Authentificate the user
      * 
@@ -33,8 +12,8 @@ var authDao = function(){
      * @param {Http} next
      */
     this.authUser = function(req, res, next){
-        console.log('We are here ');
-        AuthModel.findOne({email: req.body.email}).then(function(user){
+        
+        UserModel.findOne({email: req.body.email}).then(function(user){
             if(!user){
                 // A ce niveau, renvoyé l'utilisateur à la page de connexion
                 res.send({status:"fail", message: "Erreur d'autentification. Aucun utilisateur trouvé"});
@@ -54,7 +33,6 @@ var authDao = function(){
             }
         }).catch(next);
     };
-    
 };
 
 module.exports = authDao;

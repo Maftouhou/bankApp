@@ -1,6 +1,7 @@
 var UserModel = require('../models/userModel');
 var SoldModel = require('../models/soldModel');
 var SoldDao = require('../dao/soldDao');
+var AuthDao = require('../dao/authDao');
 
 var userDao = function(){
   

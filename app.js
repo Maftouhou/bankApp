@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 var socket = require('socket.io');
 var passport = require('passport');
 var config = require('./config/main');
-var authModel = require('./models/authModel'); // Can be moded to a proper location
+// var authModel = require('./models/authModel'); // Can be moved to a proper location
 var jwt = require('jsonwebtoken');
 
 var index = require('./routes/index');
@@ -17,10 +17,6 @@ var sold = require('./routes/sold');
 var instantOpp = require('./routes/instantOpperation');
 var scheduledOpp = require('./routes/scheduledOpperation');
 var messaging = require('./routes/messaging');
-
-//var appartement = require('./routes/appartement');
-//var booking = require('./routes/booking');
-//var airmail = require('./routes/airbmail');
 
 // mongodb connection
 var db_connection = require('./config/db_connection');
