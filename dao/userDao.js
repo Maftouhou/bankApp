@@ -17,7 +17,8 @@ var userDao = function(){
                 userInfo: user,
                 sold: { 
                     id: userSold ?  userSold._id : 'N/A', 
-                    amount: userSold ?  userSold.amount : 0 }
+                    amount: userSold ?  userSold.amount : 0,
+                    Account_num: userSold.Account_num }
             };
 
             res.status((user.length === 0) ? 204 : 200);
