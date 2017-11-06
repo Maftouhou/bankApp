@@ -7,7 +7,7 @@ router.get('/',  passport.authenticate('jwt', { session: false }), function(req,
     // res.render('index', { title: 'Express' });
     res.send({
         "info": "setup is done",
-        "user": req.user._id
+        "user": req.user
     });
 });
 

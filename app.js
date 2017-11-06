@@ -51,8 +51,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Initialise passport
+// Initialise passport (Passport middleware)
 app.use(passport.initialize());
+app.use(passport.session());
 
 // Bringing passport strategie
 require('./config/passport')(passport);

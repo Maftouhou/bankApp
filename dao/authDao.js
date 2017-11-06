@@ -21,11 +21,10 @@ var authDao = function(){
                 user.comparePassword(req.body.password, function(err, isMatch){
                     
                     if(isMatch && !err){
-                        let credential = {email: user.email, password: user.password};
-                        var token = jwt.sign(credential, config.secret, {
-                            expiresIn: 10080 // in seconds
+                        var token = jwt.sign({user: user}, config.secret, {
+                            expiresIn: 604800 // in seconds
                         });
-                        res.json({ success: true, token: 'JWT ' + token });
+                        res.json({ success: true, token: 'JWT ' + token, user: user });
                     }else{
                         res.send({status:"fail", message: "Erreur d'autentification. Le mot de passe est incorrect."});
                     }
