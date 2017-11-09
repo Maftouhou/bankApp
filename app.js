@@ -9,6 +9,7 @@ var passport = require('passport');
 var config = require('./config/main');
 // var authModel = require('./models/authModel'); // Can be moved to a proper location
 var jwt = require('jsonwebtoken');
+var cors = require('cors');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -21,6 +22,8 @@ var messaging = require('./routes/messaging');
 // mongodb connection
 var db_connection = require('./config/db_connection');
 var app = express();
+
+app.use(cors());
 
 // Connecting to socket service
 var server = app.listen(4000);

@@ -5,7 +5,7 @@ var bcrypt = require('bcrypt');
  * @type mongoose.schema
  */
 var userModel = new mongoose.Schema({
-    firstname: {type: String, required: [true, 'Firstname is required']},
+    firstName: {type: String, required: [true, 'Firstname is required']},
     lastName: {type: String, required: [true, 'Lastname is required']},
     phone: {type: Number},
     email: {type: String, required: [true, 'Email is required']},
