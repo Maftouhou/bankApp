@@ -5,9 +5,7 @@ var mongoose = require('mongoose');
  */
 var soldModel = new mongoose.Schema({
     user_id: {type: String, required: true},
-    Account_num: {
-        type: String, required: true, 
-        unique: true, default: "MB_"+Math.floor(Math.random() * 1000000000000)},
+    account_num: { type: String, required: true, unique: true},
     amount: {type: Number, required: true, default: 0},
     created_at: {type: Date, default: Date.now },
     updated_at: {type: Date, default: Date.now }

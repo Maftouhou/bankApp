@@ -1,8 +1,31 @@
 var SoldModel = require('../models/soldModel');
 var db = require('../config/db_connection');
+var rendomStr = require('randomstring');
 
 var soldDao = function(){
-
+    
+    /**
+     * Generate an rundom account number 
+     * for each user
+     * 
+     * @returns {String}
+     */
+    var getGenAccountNum = function(){
+        
+        return "MB_" + rendomStr.generate({
+            charset: "alphabetic",
+            length: 6,
+            capitalization: "uppercase"
+        }) + "_" + rendomStr.generate({
+            charset: "numeric",
+            length: 4
+        }) + "_" + rendomStr.generate({
+            charset: "alphabetic",
+            length: 2,
+            capitalization: "uppercase"
+        });
+    };
+    
     /**
      * Get all sold
      * 
@@ -38,13 +61,15 @@ var soldDao = function(){
             }
         }).catch(next);
     };
-
+    
     /**
      * Create sold
      * 
      * @param {Object} data 
      */
     this.CreateSoldForUser = function(data){
+        data.account_num = getGenAccountNum();
+        data.amount = 0;
         
         SoldModel.create(data).then(function(){ });
     };

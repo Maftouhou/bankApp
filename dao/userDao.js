@@ -2,6 +2,7 @@ var UserModel = require('../models/userModel');
 var SoldModel = require('../models/soldModel');
 var SoldDao = require('../dao/soldDao');
 var AuthDao = require('../dao/authDao');
+var rendomStr = require('randomstring');
 
 var userDao = function(){
   
@@ -66,7 +67,7 @@ var userDao = function(){
             }
         }).catch(next);
     };
-
+    
     /**
      * Create a user
      * 
@@ -85,8 +86,7 @@ var userDao = function(){
             }else{
                 UserModel.create(req.body).then(function(user){
                     let data = {
-                        user_id: user._id,
-                        amount: 0
+                        user_id: user._id
                     };
                     new SoldDao().CreateSoldForUser(data);
 
