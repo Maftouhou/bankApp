@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var UserSvc = require('../services/userSvc');
+var passport = require('passport');
 
 // var UserModel = require('../models/userModel');
 
@@ -11,7 +12,7 @@ var UserSvc = require('../services/userSvc');
  * @param {Http} res 
  * @param {Http} next 
  */
-router.get('/:id', function(req, res, next) {
+router.get('/:id', passport.authenticate('jwt', { session: false }), function(req, res, next) {
     
     return new UserSvc().getOneUser(req, res, next);
 });
@@ -24,7 +25,7 @@ router.get('/:id', function(req, res, next) {
  * @param {Http} res 
  * @param {Http} next 
  */
-router.get('/', function(req, res, next) {
+router.get('/', passport.authenticate('jwt', { session: false }), function(req, res, next) {
     
     return new UserSvc().getAllUsers(req, res, next);
 });
@@ -37,7 +38,7 @@ router.get('/', function(req, res, next) {
  * @param {Http} next 
  */
 router.post('/', function (req, res, next) {
-    
+    console.log(req.body);
     return new UserSvc().CreateUser(req, res, next);
 });
 
@@ -48,7 +49,7 @@ router.post('/', function (req, res, next) {
  * @param {Http} res 
  * @param {Http} next 
  */
-router.put('/:id', function (req, res, next) {
+router.put('/:id', passport.authenticate('jwt', { session: false }), function (req, res, next) {
     
     return new UserSvc().UpdateUser(req, res, next);
 });
@@ -60,7 +61,7 @@ router.put('/:id', function (req, res, next) {
  * @param {Http} res 
  * @param {Http} next 
  */
-router.delete('/:id', function (req, res, next) {
+router.delete('/:id', passport.authenticate('jwt', { session: false }), function (req, res, next) {
 
     return new UserSvc().DeleteUser(req, res, next);
 });

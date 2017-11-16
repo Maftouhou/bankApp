@@ -1,15 +1,16 @@
 var express = require('express');
 var router = express.Router();
 var SoldSvc = require('../dao/soldDao');
+var passport = require('passport');
 
 /**
- * Get one users
+ * 
  * 
  * @param {Http} req 
  * @param {Http} res 
  * @param {Http} next 
  */
-router.get('/:id', function(req, res, next) {
+router.get('/:id', passport.authenticate('jwt', { session: false }), function(req, res, next) {
     
     return new SoldSvc().getSold(req, res, next);
 });
@@ -21,31 +22,31 @@ router.get('/:id', function(req, res, next) {
  * @param {Http} res 
  * @param {Http} next 
  */
-router.get('/', function(req, res, next) {
+router.get('/', passport.authenticate('jwt', { session: false }), function(req, res, next) {
     
     return new SoldSvc().getAllSold(req, res, next);
 });
 
 /**
- * Create a user
+ * 
  * 
  * @param {Http} req 
  * @param {Http} res 
  * @param {Http} next 
  */
-router.post('/', function (req, res, next) {
+router.post('/', passport.authenticate('jwt', { session: false }), function (req, res, next) {
     
     return new SoldSvc().CreateSold(req, res, next);
 });
 
 /**
- * Update a user
+ * 
  * 
  * @param {Http} req 
  * @param {Http} res 
  * @param {Http} next 
  */
-router.put('/:id', function (req, res, next) {
+router.put('/:id', passport.authenticate('jwt', { session: false }), function (req, res, next) {
     
     return new SoldSvc().UpdateSoldTemps(req, res, next);
 });
