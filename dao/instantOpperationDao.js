@@ -77,10 +77,18 @@ var instantOpperationDao = function(){
      */
     this.CreateOpperation = function(req, res, next){
 
-        SoldModel.findOne({user_id: req.body.user_id}).then(function(sold){
-            if(sold.amount < req.body.amount){
+        SoldModel.findOne({account_num: req.body.account_num}).then(function(sold){
+
+            if(sold === null ){
+                res.send({"status":"Errore de transaction", 
+                    "message" : "Aucun bénéficiaire trouvé avec ce numéro de compte \""+ req.body.account_num +"\" !"}).end();
+            }else if(req.body.user_sold < req.body.amount){
                 res.send({"status":"Errore de transaction", "message" : "solde insuffisant"}).end();
             }else {
+                req.body.co_author_id = sold.user_id;
+                delete req.body.account_num;
+                delete req.body.user_sold;
+                
                 OpperationModel.create(req.body).then(function(instantOpp){
                     new SoldSvc().UpdateSold(req, res, next, instantOpp);
                 }).catch(next);
