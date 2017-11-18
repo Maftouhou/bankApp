@@ -10,7 +10,7 @@ var scheduledOpperationModel = new mongoose.Schema({
         status: {type: String, enum: ['success', 'fail', 'pending'], required: true, default: 'pending'},
         comment: {type: String, default: 'en attente de validation'}
     },
-    dateOpperation: {type: Date, default: Date.now },
+    dateOpperation: {type: Date, required: true},
     scheduledDateOpperation: {type: Date },
     co_author_id: {type: String, required: true},
     amount: {type: Number, required: true},
