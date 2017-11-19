@@ -56,15 +56,12 @@ io.on('connection', function(socket){
     });
     
     // When a user disconnect !
-    socket.on('disconnect', function() {
-        console.log('user disconnected');
-    });
+    socket.on('disconnect', function() { });
     
-    socket.on('add-message', (message) => {
+    socket.on('add-message', function(message){
         io.emit('message', { type: 'new-message', text: message });
         databaseStore(message);
     });
-    console.log('Connection extablished !');
 });
 
 // view engine setup
