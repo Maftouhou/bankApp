@@ -10,6 +10,7 @@ var config = require('./config/main');
 // var authModel = require('./models/authModel'); // Can be moved to a proper location
 var jwt = require('jsonwebtoken');
 var cors = require('cors');
+const MongoClient = require('mongodb').MongoClient;
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -20,10 +21,24 @@ var scheduledOpp = require('./routes/scheduledOpperation');
 var messaging = require('./routes/messaging');
 
 // mongodb connection
+var db;
 var db_connection = require('./config/db_connection');
+var dbconnection = 'mongodb://localhost/bankApp';
 var app = express();
 
 app.use(cors());
+
+MongoClient.connect(dbconnection, (err, database) => {
+    if (err) return console.log(err);
+    db = database;
+});
+
+function databaseStore(message) {
+    let storeData = { chatMessage: message, timestamp: new Date().toLocaleString() };
+    db.collection('messaging').save(storeData, (err, result) => {
+        if (err) return console.log(err);
+    });
+}
 
 // Connecting to socket service
 var server = app.listen(4000);
@@ -38,6 +53,16 @@ io.on('connection', function(socket){
     // When a chat message is sent !
     socket.on('messaging', function(data){
         io.sockets.emit('messaging', data);
+    });
+    
+    // When a user disconnect !
+    socket.on('disconnect', function() {
+        console.log('user disconnected');
+    });
+    
+    socket.on('add-message', (message) => {
+        io.emit('message', { type: 'new-message', text: message });
+        databaseStore(message);
     });
     console.log('Connection extablished !');
 });
