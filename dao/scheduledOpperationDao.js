@@ -12,12 +12,16 @@ var scheduledOpperationDao = function(){
      * @param {Http} next 
      */
     this.getAllOpperation = function(req, res, next){
+        if(typeof req.query.user_id === "string"){
+            getOpperationByUser(req, res, next);
+        }else{
 
-        OpperationModel.find().then(function(scheduledOpp){
-            res.status((scheduledOpp.length === 0) ? 204 : 200);
-            res.send(scheduledOpp);
-            res.end();
-        }).catch(next);
+            OpperationModel.find().then(function(scheduledOpp){
+                res.status((scheduledOpp.length === 0) ? 204 : 200);
+                res.send(scheduledOpp);
+                res.end();
+            }).catch(next);
+        }
     };
 
     /**
@@ -40,6 +44,27 @@ var scheduledOpperationDao = function(){
         }).catch(next);
     };
 
+    /**
+     * Get Opperation by user
+     * 
+     * @param {Http} req 
+     * @param {Http} res 
+     * @param {Http} next 
+     */
+    var getOpperationByUser = function(req, res, next){
+        console.log(req.query.user_id);
+        OpperationModel
+            .find({ $or:[{ "user_id": req.query.user_id}, {"co_author_id": req.query.user_id}] })
+            .then(function(instantOpp){
+            if(instantOpp !== null){
+                res.status((instantOpp.length === 0) ? 204 : 200);
+                res.send(instantOpp);
+                res.end();
+            }else{
+                res.status(204).end();
+            }
+        }).catch(next);
+    };
     /**
      * Create a new Opperation 
      * 

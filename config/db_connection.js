@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-//mongoose.connect('mongodb://vectograph:vectopas@ds127375.mlab.com:27375/bankApp');
+// mongoose.connect('mongodb://bankapp:bankapp@ds113906.mlab.com:13906/bankapp');
 mongoose.connect('mongodb://localhost/bankApp');
 
 mongoose.Promise = global.Promise;
