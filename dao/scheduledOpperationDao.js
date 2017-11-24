@@ -54,7 +54,7 @@ var scheduledOpperationDao = function(){
     var getOpperationByUser = function(req, res, next){
         console.log(req.query.user_id);
         OpperationModel
-            .find({ $or:[{ "user_id": req.query.user_id}, {"co_author_id": req.query.user_id}] })
+            .find({ $or:[{ "user_id": req.query.user_id}] })
             .then(function(instantOpp){
             if(instantOpp !== null){
                 res.status((instantOpp.length === 0) ? 204 : 200);
