@@ -23,7 +23,8 @@ var messaging = require('./routes/messaging');
 // mongodb connection
 var db;
 var db_connection = require('./config/db_connection');
-var dbconnection = 'mongodb://localhost/bankApp';
+// var dbconnection = 'mongodb://localhost/bankApp';
+var dbconnection = 'mongodb://bankapp:bankapp@ds113906.mlab.com:13906/bankapp';
 var app = express();
 
 app.use(cors());
