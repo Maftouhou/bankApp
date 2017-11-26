@@ -29,7 +29,7 @@ var updateInstantOppSvc = function(){
                 res.status(204).end();
             }
         });
-        res.end();
+        // res.end();
     };
     
     /**
@@ -42,7 +42,6 @@ var updateInstantOppSvc = function(){
      */
     var prepareDataForUpdate = function(req, res, next, data){
         let newOpperation = {};
-        
         for(let i = 0; i < data.length; i++){
             newOpperation.user_id = data[i].user_id;
             newOpperation.co_author_id = data[i].co_author_id;
@@ -63,10 +62,11 @@ var updateInstantOppSvc = function(){
             dateOpperation : schOppDateOpperation
         };
         
+        
         SoldModel.findOne({user_id: newOpperation.user_id}).then(function(sold){
             
             if(newOpperation.dateOpperation.toLocaleString() <= new Date().toLocaleString()){
-                console.log(newOpperation.dateOpperation.toLocaleString() <= new Date().toLocaleString());
+                // console.log(newOpperation.dateOpperation.toLocaleString() <= new Date().toLocaleString());
                 if(sold.amount < schOppAmount){
                     let errUpdateInfo = {
                         "statusRepport.status":"Fail", 
