@@ -11,6 +11,7 @@ var schedule = require('node-schedule');
 // var authModel = require('./models/authModel'); // Can be moved to a proper location
 var jwt = require('jsonwebtoken');
 var cors = require('cors');
+var config = require('config');
 const MongoClient = require('mongodb').MongoClient;
 
 var index = require('./routes/index');
@@ -37,6 +38,20 @@ MongoClient.connect(dbconnection, (err, database) => {
     db = database;
 });
 
+/**
+ * Application Runtime envirnement :
+ */
+if(process.env.NODE_ENV){
+    console.log('Node Runtime envirnement: ' + process.env.NODE_ENV);
+    var appConfig = config.get(process.env.NODE_ENV + '.config');
+    
+    console.log('Application configuration: ', appConfig);
+}else {
+    // throw an exception for missing envirnement configuration
+    // process the end of the application execution
+}
+/* End process envirnement variables */
+
 function databaseStore(message) {
     let storeData = {chatMessage: message, timestamp: new Date().toLocaleString()};
     db.collection('messaging').save(storeData, (err, result) => {
@@ -51,7 +66,7 @@ schedule.scheduleJob('1 * * * * *', function () {
 });
 
 // Connecting to socket service
-var server = app.listen(4000);
+var server = app.listen(5000);
 var io = require('socket.io').listen(server);
 io.on('connection', function (socket) {
 
